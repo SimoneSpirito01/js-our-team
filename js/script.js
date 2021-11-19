@@ -1,4 +1,5 @@
 
+// creo l'array di oggetti con le info sui vari componenti del team
 const team = [
     {
         'nome': 'Wayne Barnett',
@@ -32,24 +33,52 @@ const team = [
     }
 ];
 
-let cards = '';
-for (let i = 0; i < team.length; i++){
-    cards +=
-    `
-    <div class="team-card">
-        <div class="card-image">
-        <img
-            src='${team[i].foto}'
-            alt='${team[i].nome}'
-        />
+// stampo le card
+createTeam(team);
+
+// al click su "Add"
+const addMember = document.getElementById('addMemberButton');
+addMember.addEventListener('click', function(){
+    // prendo le info sul nuovo membro del team dai vari input e le aggiungo all'array di oggetti
+    addCard(team);
+    // pulisco il team-container, ristampo tutte le card compresa quella del nuovo membro
+    createTeam(team);
+})
+
+function createTeam(array){
+    document.querySelector('.team-container').innerHTML = '';
+    let cards = '';
+    for (let i = 0; i < array.length; i++){
+        cards +=
+        `
+        <div class="team-card">
+            <div class="card-image">
+            <img
+                src='${array[i].foto}'
+                alt='${array[i].nome}'
+            />
+            </div>
+            <div class="card-text">
+            <h3>${array[i].nome}</h3>
+            <p>${array[i].ruolo}</p>
+            </div>
         </div>
-        <div class="card-text">
-        <h3>${team[i].nome}</h3>
-        <p>${team[i].ruolo}</p>
-        </div>
-    </div>
-    `;
-    
+        `;
+        
+    }
+    console.log(cards);
+    document.querySelector('.team-container').innerHTML = cards;
 }
-console.log(cards);
-document.querySelector('.team-container').innerHTML = cards;
+
+function addCard(array){
+    const newName = document.getElementById('name');
+    const newRole = document.getElementById('role');
+    const newImage = document.getElementById('image');
+    array.push({
+        'nome': newName.value,
+        'ruolo': newRole.value,
+        'foto': newImage.value
+    });
+    console.log(array);
+
+}
